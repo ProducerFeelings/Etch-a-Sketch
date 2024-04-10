@@ -1,8 +1,21 @@
 let color = 'black';
+let click = false;
 
 document.addEventListener("DOMContentLoaded", function() {
     createBoard(16);
     console.log('hi');
+
+    document.querySelector('body').addEventListener('click', function (e) {
+        if (e.target.tagName !== "BUTTON") {
+            click = !click;
+            let draw = document.querySelector("#draw");
+            if (click) {
+                draw.innerHTML = "Now you can Draw";
+            } else {
+                draw.innerHTML = "You're Now Allowed To Draw";
+            }
+        }
+    });
 
     let btn_popup = document.querySelector('#popup');
     btn_popup.addEventListener('click', function(){
@@ -12,7 +25,6 @@ document.addEventListener("DOMContentLoaded", function() {
 
     let btn_reset = document.querySelector('.btn-primary');
     btn_reset.addEventListener('click', resetBoard);
-
 });
 
 function createBoard(size) {
@@ -44,10 +56,12 @@ function getSize() {
 }
 
 function colorDiv() {
-    if(color === 'random') {
-        this.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 50%)`;
-    } else {
-        this.style.backgroundColor = color;
+    if (click) {
+        if (color === 'random') {
+            this.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 50%)`;
+        } else {
+            this.style.backgroundColor = color;
+        }
     }
 }
 
@@ -55,8 +69,7 @@ function setColor(colorChoice) {
     color = colorChoice;
 }
 
-
 function resetBoard() {
-    let divs = document.querySelectorAll("div");
+    let divs = document.querySelectorAll(".board div");
     divs.forEach((div) => div.style.backgroundColor = 'white');
 }
